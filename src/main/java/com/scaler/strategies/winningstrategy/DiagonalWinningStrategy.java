@@ -6,6 +6,11 @@ import com.scaler.models.Move;
 public class DiagonalWinningStrategy implements GameWinningStrategy {
     @Override
     public boolean checkVictory(Board board, Move lastMove) {
+        //return checkVictoryInON(board, lastMove);
+        return checkVictoryInO1(board, lastMove);
+    }
+
+    private boolean checkVictoryInON(Board board, Move lastMove) {
         //check if the move qualifies to be one of the l-r diagonal elements
         if(lastMove.getRow() == lastMove.getColumn()) {
             for(int i=0;i<board.getDimension();++i) {
@@ -25,9 +30,7 @@ public class DiagonalWinningStrategy implements GameWinningStrategy {
         }
         return false;
     }
-
-    /*@Override
-    public boolean checkVictory(Board board, Move lastMove) {
+    public boolean checkVictoryInO1(Board board, Move lastMove) {
         //check if the move qualifies to be one of the l-r diagonal elements
         if(lastMove.getRow() == lastMove.getColumn()) {
             return board.getPlayerToDiagonalCountMap().get(lastMove.getPlayer()).get(0) == board.getDimension();
@@ -35,5 +38,5 @@ public class DiagonalWinningStrategy implements GameWinningStrategy {
             return board.getPlayerToDiagonalCountMap().get(lastMove.getPlayer()).get(1) == board.getDimension();
         }
         return false;
-    }*/
+    }
 }

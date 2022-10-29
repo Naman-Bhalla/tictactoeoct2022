@@ -4,10 +4,7 @@ import com.scaler.exceptions.DuplicateSymbolException;
 import com.scaler.factories.GameWinningStrategyFactory;
 import com.scaler.strategies.winningstrategy.GameWinningStrategy;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
     private List<Player> players;
@@ -18,6 +15,7 @@ public class Game {
     private GameStatus gameStatus;
     private Player winner;
     private int filledCells = 0;
+
 
     private Game() {}
 
@@ -75,6 +73,8 @@ public class Game {
                 this.players.get(lastMovedPlayerIndex)
         );
 
+        populatePlayersData(potentialMove);
+
         filledCells += 1;
 
         for (GameWinningStrategy gameWinningStrategy: gameWinningStrategies) {
@@ -87,6 +87,43 @@ public class Game {
 
         if (filledCells == (this.players.size() + 1) * (this.players.size() + 1)) {
             gameStatus = GameStatus.DRAW;
+        }
+    }
+
+    private void populatePlayersData(Move potentialMove) {
+        int r = potentialMove.getRow();
+        int c = potentialMove.getColumn();
+        Player player = potentialMove.getPlayer();
+        Map<Integer, Integer> dataMap = this.board.getPlayerToRowCountMap().get(player);
+        if(dataMap == null) {
+            dataMap = new HashMap<>();
+            this.board.getPlayerToRowCountMap().put(player, dataMap);
+        }
+        dataMap.put(r, dataMap.getOrDefault(r, 0)+1);
+
+        dataMap = this.board.getPlayerToColCountMap().get(player);
+        if(dataMap == null) {
+            dataMap = new HashMap<>();
+            this.board.getPlayerToColCountMap().put(player, dataMap);
+        }
+        dataMap.put(c, dataMap.getOrDefault(c, 0)+1);
+
+        if(r == c) {
+            dataMap = this.board.getPlayerToDiagonalCountMap().get(player);
+            if (dataMap == null) {
+                dataMap = new HashMap<>();
+                this.board.getPlayerToDiagonalCountMap().put(player, dataMap);
+            }
+            dataMap.put(0, dataMap.getOrDefault(0, 0) + 1);
+        }
+
+        if(r+c == board.getDimension()-1) {
+            dataMap = this.board.getPlayerToDiagonalCountMap().get(player);
+            if (dataMap == null) {
+                dataMap = new HashMap<>();
+                this.board.getPlayerToDiagonalCountMap().put(player, dataMap);
+            }
+            dataMap.put(1, dataMap.getOrDefault(1, 0) + 1);
         }
     }
 
