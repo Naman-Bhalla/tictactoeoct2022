@@ -65,6 +65,8 @@ public class Game {
 
         if (this.board.getCell(potentialMove.getRow(), potentialMove.getColumn()).getPlayer() != null) {
             System.out.println("Bad Move Try Again!");
+            this.lastMovedPlayerIndex -= 1;
+            this.lastMovedPlayerIndex %= players.size();
             return;
         }
 
