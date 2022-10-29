@@ -45,7 +45,7 @@ public class Main {
             players.add(PlayerFactory.createHumanPlayer(name, character));
         }
 
-        System.out.println("How many winning strategis?");
+        System.out.println("How many winning strategies?");
         Integer winningStrategiesCount = scanner.nextInt();
 
         List<GameWinningStrategyName> gameWinningStrategyNames = new ArrayList<>();
@@ -63,6 +63,11 @@ public class Main {
 
         while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
             game.makeMove();
+            if(game.getGameStatus().equals(GameStatus.DRAW)) {
+                System.out.println("Game resulted in a draw!");
+            } else if(game.getGameStatus().equals(GameStatus.ENDED)) {
+                System.out.println("Congrats " + game.getWinner().getName() + " !! You have won :-)");
+            }
         }
 
     }

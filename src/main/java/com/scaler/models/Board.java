@@ -1,12 +1,19 @@
 package com.scaler.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Board {
     private int dimension;
     private List<List<Cell>> board;
+    private Map<Player, Map<Integer, Integer>> playerToRowCountMap;
 
+
+
+    private Map<Player, Map<Integer, Integer>> playerToColCountMap;
+    private Map<Player, Map<Integer, Integer>> playerToDiagonalCountMap;
     public Cell getCell(int row, int col) {
         return board.get(row).get(col);
     }
@@ -22,6 +29,10 @@ public class Board {
                 this.board.get(i).add(new Cell(i, j));
             }
         }
+
+        this.playerToColCountMap = new HashMap<>();
+        this.playerToRowCountMap = new HashMap<>();
+        this.playerToDiagonalCountMap = new HashMap<>();
     }
 
     public int getDimension() {
@@ -30,6 +41,18 @@ public class Board {
 
     public List<List<Cell>> getBoard() {
         return board;
+    }
+
+    public Map<Player, Map<Integer, Integer>> getPlayerToRowCountMap() {
+        return playerToRowCountMap;
+    }
+
+    public Map<Player, Map<Integer, Integer>> getPlayerToColCountMap() {
+        return playerToColCountMap;
+    }
+
+    public Map<Player, Map<Integer, Integer>> getPlayerToDiagonalCountMap() {
+        return playerToDiagonalCountMap;
     }
 
     public void display() {
